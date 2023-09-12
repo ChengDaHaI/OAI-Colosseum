@@ -1,3 +1,5 @@
+#!/usr/bin/python3.6
+
 import os
 import argparse
 import json
@@ -113,8 +115,8 @@ class Ran:
             rus = 'RUs = \(\{ \}\)\;'
             os.system(f"echo {rus} >> {self.config_file}")
             args += ['--RUs.[0].local_rf "yes"',
-                     '--RUs.[0].nb_tx 1',
-                     '--RUs.[0].nb_rx 1',
+                     '--RUs.[0].nb_tx 2',
+                     '--RUs.[0].nb_rx 2',
                      '--RUs.[0].att_tx 0',
                      '--RUs.[0].att_rx 0',
                      '--RUs.[0].bands [78]',
@@ -202,7 +204,7 @@ class Ran:
             oai_args += [f'{self.phytest}']
         if self.args.scope:
             oai_args += ['-d']
-        oai_args += [f'--continuous-tx']
+        # oai_args += [f'--continuous-tx']
         oai_args += ["--thread-pool '-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1'"]
         # Set cell name and id
         oai_args += [f'--Active_gNBs "IAB-{self.node_id}"',
@@ -253,6 +255,7 @@ class Ran:
                 '--clock-source 1',
                 '--time-source 1',
                 '--ue-fo-compensation',
+                '--ue-nb-ant-rx 2 --ue-nb-ant-tx 2 ',
                 f'--if_freq {self.if_freq}']
         if self.args.type == 'phy-test':
             args += ["--phy-test"]
