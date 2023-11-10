@@ -66,7 +66,7 @@ class Ran:
         self.config_file = '/tmp/oai_config.conf'
         if self.mode == 'phy-test':
             self.phytest = args.phytestargs
-        with open('conf.json', 'r') as fr:
+        with open('/root/OAI-Colosseum/conf.json', 'r') as fr:
             self.conf_json = json.load(fr)
         self.conf = self.conf_json[str(self.numerology)][str(self.prb)]
         self.set_if_freq(self.channel)
@@ -194,7 +194,8 @@ class Ran:
             # gdb override numa
             pre_path = f'gdb --args '
         executable = f"{OAI_PATH}/cmake_targets/ran_build/build/nr-softmodem "
-        oai_args = [f"-O {self.config_file}", "--usrp-tx-thread-config 1"]
+        #oai_args = [f"-O {self.config_file}", "--usrp-tx-thread-config 1"]
+        oai_args = [f"-O {self.config_file}", "--rfsim"]
         if self.prb >= 106 and self.numerology == 1:
             oai_args.append("-E")
         if self.args.rfsim > 0:
@@ -251,10 +252,11 @@ class Ran:
                 f'-C {self.ssb_frequency}',
                 '--nokrnmod 1',
                 '--ue-txgain 0',
-                f'-A {self.conf["timing_advance"]}',
+                #f'-A {self.conf["timing_advance"]}',
                 '--clock-source 1',
                 '--time-source 1',
                 '--ue-fo-compensation',
+                #'--rfsim --rfsimulator.serveraddr 172.30.141.141 ',
                 '--ue-nb-ant-rx 2 --ue-nb-ant-tx 2 ',
                 f'--if_freq {self.if_freq}']
         if self.args.type == 'phy-test':
